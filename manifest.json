@@ -1,0 +1,16 @@
+{
+  "name": "The Spice Kitchen - Digital Menu",
+  "short_name": "Spice Kitchen",
+  "description": "Premium Digital Table Menu for The Spice Kitchen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F5",
+  "theme_color": "#8B1E1E",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

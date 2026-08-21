@@ -1,0 +1,342 @@
+@import "tailwindcss";
+
+/* Google Fonts: Plus Jakarta Sans for UI + Playfair Display for Restaurant Typography */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand Colors - Configurable for any Restaurant */
+  --primary: #8B1E1E;
+  --primary-hover: #731717;
+  --primary-light: #FDF2F2;
+  --primary-glow: rgba(139, 30, 30, 0.15);
+  
+  --secondary: #D97706;
+  --secondary-light: #FEF3C7;
+  --secondary-glow: rgba(217, 119, 6, 0.18);
+  
+  --bg-page: #FAF8F5;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #FFFFFF;
+  --bg-muted: #F3EFEA;
+  
+  --text-primary: #1C1917;
+  --text-secondary: #57534E;
+  --text-muted: #78716C;
+  --text-light: #A8A29E;
+  
+  --border-subtle: #E7E1D8;
+  --border-strong: #D6CEBE;
+  
+  --veg-color: #15803D;
+  --veg-bg: #DCFCE7;
+  --veg-border: #86EFAC;
+  
+  --nonveg-color: #B91C1C;
+  --nonveg-bg: #FEE2E2;
+  --nonveg-border: #FCA5A5;
+  
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.05);
+  --shadow-card: 0 4px 14px -2px rgba(28, 25, 23, 0.07), 0 2px 6px -1px rgba(28, 25, 23, 0.03);
+  --shadow-card-hover: 0 10px 25px -4px rgba(28, 25, 23, 0.12), 0 4px 10px -2px rgba(28, 25, 23, 0.04);
+  --shadow-modal: 0 20px 45px -10px rgba(0, 0, 0, 0.35);
+  --shadow-bottom-nav: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.05);
+  --shadow-glow-amber: 0 4px 20px rgba(217, 119, 6, 0.35);
+}
+
+/* Base resets & typography */
+html {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: var(--bg-page);
+  min-height: 100vh;
+}
+
+/* Floating Glassmorphic Bottom Dock */
+.floating-bottom-dock {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(231, 225, 216, 0.85);
+  box-shadow: 0 12px 36px -4px rgba(28, 25, 23, 0.14), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Pulse & Bounce keyframes for dynamic badge */
+@keyframes badgePop {
+  0% { transform: scale(0.6); opacity: 0; }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.badge-pop {
+  animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(217, 119, 6, 0); }
+}
+
+.pulse-amber {
+  animation: pulseGlow 2s infinite;
+}
+
+/* Stepper & Action buttons */
+.stepper-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.stepper-btn:active {
+  transform: scale(0.9);
+}
+
+/* Tag Pill for special instructions */
+.instruction-tag {
+  transition: all 0.18s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.instruction-tag.active {
+  background-color: #FEF3C7;
+  color: #92400E;
+  border-color: #FCD34D;
+  font-weight: 700;
+}
+
+/* Classic & Professional Luxury Restaurant Styling */
+.bg-parchment {
+  background-color: #FAF8F5;
+}
+
+.bg-parchment-card {
+  background-color: #FFFFFF;
+  border: 1px solid #ECE7DF;
+}
+
+.brass-border {
+  border: 1px solid rgba(197, 155, 39, 0.35);
+}
+
+.brass-pill {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.8), rgba(253, 230, 138, 0.6));
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  color: #78350F;
+}
+
+.dotted-divider {
+  border-bottom: 1px dashed #DCD6CC;
+}
+
+.ledger-row {
+  transition: background-color 0.15s ease;
+}
+.ledger-row:hover {
+  background-color: rgba(245, 242, 235, 0.6);
+}
+
+/* Flavour Badge & Direct Cart Controls */
+.flavour-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background-color: #F7F4EE;
+  color: #634A2E;
+  border: 1px solid #E6DCCD;
+  white-space: nowrap;
+}
+
+.cart-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.cart-add-btn:active {
+  transform: scale(0.94);
+}
+
+.cart-stepper-mini {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #1C1917;
+  color: #FAF5E9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.cart-stepper-mini button {
+  padding: 4px 8px;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+  transition: background-color 0.15s ease;
+}
+
+.cart-stepper-mini button:hover {
+  background-color: #292524;
+}
+
+/* Custom Scrollbar for Category Navigation */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Font Family Utility Classes */
+.font-brand {
+  font-family: var(--font-serif);
+}
+.font-body {
+  font-family: var(--font-sans);
+}
+
+/* Veg / Non-Veg Indicator Badges */
+.diet-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.diet-indicator.veg {
+  border: 1.5px solid var(--veg-color);
+}
+.diet-indicator.veg::after {
+  content: '';
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 50%;
+  background-color: var(--veg-color);
+}
+
+.diet-indicator.non-veg {
+  border: 1.5px solid var(--nonveg-color);
+}
+.diet-indicator.non-veg::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 7px solid var(--nonveg-color);
+}
+
+/* Dish Card Styles */
+.dish-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.dish-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--border-strong);
+}
+
+.dish-card:active {
+  transform: scale(0.985);
+}
+
+/* Sticky Category Pills */
+.category-pill {
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.category-pill.active {
+  background-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+
+/* Image Shimmer & Loading */
+.img-loading {
+  background: linear-gradient(90deg, #ece7e0 25%, #f5f1eb 50%, #ece7e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Modal Transitions */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(15, 12, 10, 0.65);
+  transition: opacity 0.25s ease-out;
+}
+
+.modal-content {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+/* Print layout for QR code table stands */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #qr-printable-card, #qr-printable-card * {
+    visibility: visible;
+  }
+  #qr-printable-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+  }
+}

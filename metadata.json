@@ -1,0 +1,6 @@
+{
+  "name": "The Spice Kitchen - Digital Restaurant Menu",
+  "description": "A mobile-first, static QR digital restaurant menu with instant search, category filtering, dish details modal, dietary filters, and table QR code generator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

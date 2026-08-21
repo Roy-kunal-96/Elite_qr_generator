@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>The Spice Kitchen · Digital Restaurant Table Menu</title>
+    <meta name="description" content="Authentic Indian Cuisine & Tandoori specialties digital QR table menu with instant dish details, allergen guides, and dietary filters." />
+    
+    <!-- PWA & Mobile Web App Meta -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#8B1E1E" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="The Spice Kitchen · Digital Table Menu" />
+    <meta property="og:description" content="Explore our authentic Indian curries, tandoori appetizers, dum biryanis, and artisan breads." />
+    <meta property="og:type" content="restaurant.menu" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body class="bg-[#FAF8F5] text-stone-900 min-h-screen pb-24 md:pb-12 antialiased selection:bg-amber-200">
+    
+    <!-- Top Announcement / Live QR Demo Banner (Desktop Adaptive) -->
+    <header id="desktop-top-banner" class="bg-stone-950 text-stone-300 py-1.5 px-4 text-xs flex items-center justify-between border-b border-stone-800">
+      <div class="flex items-center gap-2 max-w-7xl mx-auto w-full justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-amber-400">✨</span>
+          <span class="font-medium text-stone-200">Digital QR Table Menu</span>
+          <span class="hidden sm:inline text-stone-500">|</span>
+          <span class="hidden sm:inline text-stone-400">Scan table QR for instant touchless menu</span>
+        </div>
+        <div class="flex items-center gap-3 text-[11px]">
+          <button id="btn-toggle-search" class="flex items-center gap-1 text-stone-300 hover:text-amber-300 transition cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <span>Search</span>
+          </button>
+          <span class="text-stone-700">•</span>
+          <button id="btn-open-shortlist" class="flex items-center gap-1 text-stone-300 hover:text-amber-300 transition cursor-pointer relative">
+            <span>Table Picks</span>
+            <span class="shortlist-counter hidden px-1.5 py-0.2 rounded-full bg-amber-500 text-stone-950 font-black text-[9px]">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main id="main-content" class="max-w-4xl mx-auto bg-[#FAF8F5] shadow-xs min-h-screen">
+      
+      <!-- Restaurant Header Component -->
+      <section id="restaurant-header" aria-label="Restaurant Profile">
+        <!-- Rendered by JS -->
+      </section>
+
+      <!-- Sticky Search Bar & Category Navigation Area -->
+      <div id="sticky-category-container" class="sticky top-0 z-30 bg-[#FAF8F5] transition duration-200 border-b border-stone-200/80">
+        
+        <!-- Search Input Section -->
+        <div id="search-bar-section" class="px-4 pt-3 pb-2">
+          <div class="relative flex items-center">
+            <div class="absolute left-3.5 text-stone-400 pointer-events-none">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input 
+              type="text" 
+              id="search-input" 
+              placeholder="Search dishes (e.g. paneer, biryani, naan, tandoori)..." 
+              class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white border border-stone-200 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-600/30 focus:border-amber-600 transition shadow-xs"
+              autocomplete="off"
+            />
+            <button 
+              id="btn-clear-search" 
+              class="hidden absolute right-3 p-1 rounded-full text-stone-400 hover:text-stone-700 transition"
+              aria-label="Clear search"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sticky Horizontal Category Nav Bar -->
+        <nav id="category-nav-bar" class="px-4 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar" aria-label="Menu Categories">
+          <div id="category-nav-list" class="flex items-center gap-2">
+            <!-- Rendered by JS -->
+          </div>
+        </nav>
+
+        <!-- Dietary Filter Chips Bar -->
+        <div id="dietary-filters-bar" class="px-4 pb-2.5 pt-1 flex items-center gap-2 overflow-x-auto no-scrollbar border-t border-stone-100/80">
+          <span class="text-[11px] font-bold text-stone-400 uppercase tracking-wider shrink-0 mr-0.5">Filter:</span>
+          <div id="dietary-filters-list" class="flex items-center gap-1.5 shrink-0">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Search / Filter Results Counter Indicator -->
+      <div class="px-4 pt-3 flex items-center justify-between">
+        <div id="search-results-count" class="hidden text-xs font-semibold text-stone-500 bg-stone-100 px-2.5 py-1 rounded-md">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Menu Items Card Grid -->
+      <section id="menu-dishes-section" class="px-4 py-3" aria-label="Menu Dishes">
+        <div id="dish-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Empty State (When search or filter has 0 results) -->
+        <div id="dish-empty-state" class="hidden text-center py-16 px-4">
+          <div class="text-5xl mb-3">🔍</div>
+          <h3 class="font-brand text-lg font-bold text-stone-800">No matching dishes found</h3>
+          <p class="text-xs sm:text-sm text-stone-500 max-w-sm mx-auto mt-1 leading-relaxed">
+            We couldn't find any dishes matching your current filter. Try searching for another item or clear your filters.
+          </p>
+        </div>
+      </section>
+
+      <!-- Restaurant Story / Footer Notes -->
+      <footer id="menu-footer" class="mt-12 px-6 py-8 bg-stone-100 border-t border-stone-200/80 text-center rounded-2xl mx-4 space-y-3">
+        <div class="text-3xl">🍲</div>
+        <h4 class="font-brand text-base font-bold text-stone-800">Prepared Fresh To Order</h4>
+        <p class="text-xs text-stone-500 max-w-md mx-auto leading-relaxed">
+          All gravies are simmered slowly using authentic whole spices and pure ingredients. Please inform our service team if you have any severe food allergies.
+        </p>
+        <div class="text-[11px] text-stone-400 pt-2 border-t border-stone-200">
+          Touchless Digital Menu · 100% Static Client-Side Experience
+        </div>
+      </footer>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (Floating Glassmorphic Luxury Dock for Mobile & Tablet) -->
+    <div class="fixed bottom-3 left-3 right-3 z-40 max-w-md mx-auto md:hidden pointer-events-none">
+      <nav id="mobile-bottom-nav" class="floating-bottom-dock rounded-full py-1.5 px-2.5 flex items-center justify-around shadow-2xl pointer-events-auto transition-all duration-300">
+        
+        <!-- Menu Tab -->
+        <button id="nav-tab-menu" class="flex-1 py-1.5 px-2 rounded-full flex flex-col items-center justify-center text-stone-900 bg-stone-100/90 active:scale-95 transition-all duration-200" aria-label="Menu">
+          <span class="text-base leading-none">🍽️</span>
+          <span class="text-[10px] font-bold mt-0.5 tracking-tight">Menu</span>
+        </button>
+
+        <!-- Popular Tab -->
+        <button id="nav-tab-popular" class="flex-1 py-1.5 px-2 rounded-full flex flex-col items-center justify-center text-stone-500 hover:text-stone-900 active:scale-95 transition-all duration-200" aria-label="Popular Dishes">
+          <span class="text-base leading-none">⭐</span>
+          <span class="text-[10px] font-medium mt-0.5 tracking-tight">Top Rated</span>
+        </button>
+
+        <!-- Table Picks (Elevated Central Hero Pill) -->
+        <button id="btn-nav-shortlist" class="flex-[1.3] py-1.5 px-2.5 mx-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-bold flex items-center justify-center gap-1.5 shadow-[0_4px_16px_rgba(217,119,6,0.35)] active:scale-95 transition-all duration-200 relative" aria-label="Table Picks">
+          <span class="text-base leading-none">📋</span>
+          <span class="text-[11px] font-extrabold tracking-tight whitespace-nowrap">Table Picks</span>
+          <span class="shortlist-counter hidden px-1.5 py-0.5 rounded-full bg-stone-950 text-amber-400 font-black text-[9px] leading-none ml-0.5 badge-pop">0</span>
+        </button>
+
+        <!-- Table QR Stand Tab -->
+        <button id="nav-tab-qr" class="flex-1 py-1.5 px-2 rounded-full flex flex-col items-center justify-center text-stone-500 hover:text-stone-900 active:scale-95 transition-all duration-200" aria-label="Table QR Stand">
+          <span class="text-base leading-none">📱</span>
+          <span class="text-[10px] font-medium mt-0.5 tracking-tight">QR Stand</span>
+        </button>
+
+      </nav>
+    </div>
+
+    <!-- Desktop Floating Table Picks Quick Bar (Visible on wider screens) -->
+    <div id="desktop-floating-picks" class="hidden md:block fixed bottom-6 right-6 z-40">
+      <button onclick="document.getElementById('shortlist-drawer').classList.remove('hidden'); document.body.style.overflow='hidden';" class="floating-bottom-dock rounded-2xl py-3 px-5 flex items-center gap-3.5 shadow-2xl border border-amber-500/30 hover:border-amber-500/60 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-stone-950 flex items-center justify-center text-lg shadow-md font-bold group-hover:rotate-6 transition">
+          📋
+        </div>
+        <div class="text-left">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-stone-900 tracking-tight">Table Picks</span>
+            <span class="shortlist-counter hidden px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold text-[10px] border border-amber-300">0</span>
+          </div>
+          <div id="desktop-picks-subtext" class="text-[11px] text-stone-500 font-medium">Review your order with server</div>
+        </div>
+        <div id="desktop-picks-total" class="text-sm font-black text-stone-900 ml-2 pl-3 border-l border-stone-200">
+          ₹0
+        </div>
+      </button>
+    </div>
+
+    <!-- Dish Details Modal -->
+    <div id="dish-detail-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="dish-modal-title">
+      <div id="dish-modal-content" class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl modal-content transform border border-stone-200">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Diner's Table Picks / Shortlist Drawer -->
+    <div id="shortlist-drawer" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 modal-backdrop" role="dialog" aria-modal="true">
+      <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl modal-content border border-stone-200/90 max-h-[92vh] sm:max-h-[88vh] flex flex-col">
+        
+        <!-- Classic Luxury Header -->
+        <div class="p-4 sm:p-5 bg-gradient-to-b from-stone-900 via-stone-900 to-stone-950 text-white flex items-center justify-between border-b border-amber-900/30 relative">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-400/40 flex items-center justify-center text-amber-300 shadow-inner">
+              <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-brand font-bold text-base text-stone-50 tracking-tight">Table Selection</h3>
+                <span id="shortlist-table-tag" class="px-2.5 py-0.5 rounded-md brass-pill font-mono font-bold text-[10px] tracking-wider uppercase">Table 04</span>
+              </div>
+              <p class="text-[11px] text-stone-400 font-normal mt-0.5">Curated course selections for your table service</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-1.5">
+            <button id="btn-whatsapp-shortlist" class="p-2.5 rounded-xl bg-emerald-700/90 hover:bg-emerald-600 text-white border border-emerald-400/30 transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Share Table Selection via WhatsApp" aria-label="Share Table Selection via WhatsApp">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              <span class="text-xs font-semibold hidden xs:inline-block">WhatsApp</span>
+            </button>
+            <button id="btn-share-shortlist" class="p-2.5 rounded-xl bg-stone-800/90 hover:bg-stone-800 text-stone-300 hover:text-amber-300 border border-white/10 transition cursor-pointer" title="Copy / Web Share Table Selection" aria-label="Share Table Selection">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            </button>
+            <button id="btn-close-shortlist" class="p-2.5 rounded-xl bg-stone-800/90 hover:bg-stone-800 text-stone-300 hover:text-white border border-white/10 transition cursor-pointer" aria-label="Close table picks">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mode Bar & Quick Stats -->
+        <div class="bg-[#F6F3ED] px-4 py-2.5 border-b border-[#E7E1D8] flex items-center justify-between gap-2 text-xs">
+          <div id="shortlist-summary-stats" class="flex items-center gap-2 text-stone-700 font-medium">
+            <!-- Populated by JS -->
+          </div>
+          
+          <!-- View Mode Switch: Itemized vs Server Read-Out Mode -->
+          <div class="flex items-center bg-stone-200/70 p-0.5 rounded-xl text-[11px] font-semibold border border-stone-300/60">
+            <button id="shortlist-view-normal" class="px-3 py-1 rounded-lg bg-white text-stone-900 shadow-sm transition font-bold cursor-pointer">
+              Itemized
+            </button>
+            <button id="shortlist-view-readout" class="px-3 py-1 rounded-lg text-stone-600 hover:text-stone-900 transition flex items-center gap-1 cursor-pointer">
+              <span>🧾</span>
+              <span>Server Card</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Shortlist Items List Container -->
+        <div id="shortlist-items-list" class="p-4 space-y-3 overflow-y-auto no-scrollbar flex-1 bg-[#FAF8F5]">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Classic Guest Folio Footer -->
+        <div class="p-4 bg-white border-t border-[#EAE4DC] space-y-3.5 shadow-xl">
+          
+          <!-- Classic Receipt / Folio Ledger -->
+          <div class="bg-[#FAF8F5] p-3.5 rounded-2xl border border-[#ECE6DE] space-y-2 text-xs">
+            <div class="flex justify-between text-stone-600 font-medium">
+              <span class="tracking-wide text-[11px] uppercase text-stone-500 font-semibold">Subtotal</span>
+              <span id="shortlist-subtotal" class="font-bold text-stone-900 font-mono">₹0</span>
+            </div>
+            <div class="flex justify-between text-stone-500 text-[11px]">
+              <span class="tracking-wide uppercase text-stone-400">Taxes & GST (5% est.)</span>
+              <span id="shortlist-tax" class="font-semibold text-stone-700 font-mono">₹0</span>
+            </div>
+            <div class="pt-2 dotted-divider flex justify-between items-baseline">
+              <div>
+                <span class="font-bold text-stone-900 text-xs tracking-tight">Estimated Bill Total</span>
+                <span class="block text-[10px] text-stone-400 font-normal">Payable at table closure</span>
+              </div>
+              <span id="shortlist-total-amount" class="text-lg font-black text-amber-700 font-mono tracking-tight">₹0</span>
+            </div>
+          </div>
+
+          <!-- Bottom Action Buttons Grid -->
+          <div class="space-y-2">
+            <!-- Primary WhatsApp Share Button -->
+            <button id="btn-whatsapp-share-bottom" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm border border-emerald-400/30 cursor-pointer active:scale-98">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              <span>Share Table Order on WhatsApp</span>
+            </button>
+
+            <!-- Secondary Actions -->
+            <div class="grid grid-cols-2 gap-2">
+              <button id="btn-call-waiter-shortlist" class="py-2.5 px-3 rounded-xl bg-white hover:bg-stone-50 text-stone-800 font-bold text-xs transition flex items-center justify-center gap-1.5 border border-stone-300 shadow-xs cursor-pointer active:scale-95">
+                <span class="text-sm">🛎️</span>
+                <span>Request Waiter</span>
+              </button>
+              <button id="btn-done-shortlist" class="py-2.5 px-3 rounded-xl bg-gradient-to-b from-stone-900 to-stone-950 text-amber-300 font-bold text-xs hover:from-stone-800 hover:to-stone-900 transition flex items-center justify-center gap-1.5 shadow-md border border-amber-500/20 cursor-pointer active:scale-95">
+                <span class="text-sm">✨</span>
+                <span>Order with Server</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Restaurant Wi-Fi & Info Modal -->
+    <div id="restaurant-info-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true">
+      <div id="info-modal-content" class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-stone-200">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Table QR Code Stand Generator Modal -->
+    <div id="qr-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop" role="dialog" aria-modal="true">
+      <div class="bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border border-stone-200 max-h-[90vh] flex flex-col">
+        
+        <!-- QR Modal Header -->
+        <div class="p-4 bg-stone-900 text-white flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📱</span>
+            <div>
+              <h3 class="font-brand font-bold text-base text-white">Table QR Stand Generator</h3>
+              <p class="text-[11px] text-amber-300">Generate printable QR code for dining tables</p>
+            </div>
+          </div>
+          <button id="btn-close-qr-modal" class="p-1 rounded-full bg-stone-800 text-stone-300 hover:text-white" aria-label="Close QR generator">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Controls -->
+        <div class="p-4 space-y-3 overflow-y-auto no-scrollbar">
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label for="qr-select-restaurant" class="block text-[11px] font-bold text-stone-600 mb-1">Select Restaurant</label>
+              <select id="qr-select-restaurant" class="w-full px-2.5 py-2 rounded-lg bg-stone-50 border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500">
+                <!-- Populated by JS -->
+              </select>
+            </div>
+            <div>
+              <label for="qr-input-table" class="block text-[11px] font-bold text-stone-600 mb-1">Table Number / Label</label>
+              <input type="text" id="qr-input-table" value="04" placeholder="04, 12, Terrace-1" class="w-full px-2.5 py-2 rounded-lg bg-stone-50 border border-stone-300 text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-amber-500" />
+            </div>
+          </div>
+
+          <!-- Printable Table Stand Preview Card -->
+          <div id="qr-printable-card" class="bg-gradient-to-b from-stone-900 to-stone-950 text-white p-5 rounded-2xl border border-amber-500/30 text-center shadow-lg my-2">
+            <div class="text-xs font-semibold tracking-widest text-amber-400 uppercase mb-1">SCAN FOR DIGITAL MENU</div>
+            <h3 id="qr-card-title" class="font-brand text-lg font-bold text-white mb-2">The Spice Kitchen</h3>
+            
+            <!-- Live QR Canvas -->
+            <div class="bg-white p-3 rounded-xl inline-block shadow-inner mx-auto my-1">
+              <canvas id="qr-canvas" class="max-w-full block"></canvas>
+            </div>
+            
+            <div id="qr-card-table" class="font-bold text-sm text-amber-300 tracking-wider mt-2">
+              TABLE 04
+            </div>
+            <div class="text-[10px] text-stone-400 mt-0.5">No App Download Needed · Instant Menu</div>
+          </div>
+
+          <!-- URL Preview -->
+          <div class="text-[11px] text-stone-500 bg-stone-100 p-2 rounded-lg break-all font-mono">
+            URL: <span id="qr-url-display">https://...</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button id="qr-btn-download" class="py-2.5 px-3 rounded-xl bg-stone-900 text-white font-bold text-xs hover:bg-stone-800 transition flex items-center justify-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>Download QR</span>
+            </button>
+            <button id="qr-btn-print" class="py-2.5 px-3 rounded-xl bg-amber-500 text-stone-950 font-bold text-xs hover:bg-amber-400 transition flex items-center justify-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <span>Print Table Card</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Waiter Notification Floating Toast -->
+    <div id="waiter-toast" class="hidden fixed bottom-20 left-4 right-4 z-50 text-center transition duration-300">
+      <!-- Injected by JS -->
+    </div>
+
+    <!-- Main Vanilla JS Bundle -->
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>
